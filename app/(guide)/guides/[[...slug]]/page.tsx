@@ -31,14 +31,14 @@ export default async function Page(props: PageProps<"/guides/[[...slug]]">) {
           })}
         />
       </DocsBody>
-      <Feedback
+      {/*<Feedback
         onSendAction={async (feedback) => {
           "use server";
 
           console.log(feedback);
           return {};
         }}
-      />
+      />*/}
       {page.data.lastModified && (
         <PageLastUpdate date={page.data.lastModified} />
       )}

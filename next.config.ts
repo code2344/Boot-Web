@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/dashboard/:path*',
-        destination: 'https://boot-lilac.vercel.app/:path*',
+        source: "/dashboard/:path*",
+        destination: "https://boot-lilac.vercel.app/:path*",
       },
     ];
   },

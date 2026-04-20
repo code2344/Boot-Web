@@ -1,7 +1,13 @@
-'use client';
-import { cn } from '../../lib/cn';
-import { buttonVariants } from '../ui/button';
-import { CornerDownRightIcon, MessageSquare, ThumbsDown, ThumbsUp, X } from 'lucide-react';
+"use client";
+import { cn } from "../../lib/cn";
+import { buttonVariants } from "../ui/button";
+import {
+  CornerDownRightIcon,
+  MessageSquare,
+  ThumbsDown,
+  ThumbsUp,
+  X,
+} from "lucide-react";
 import {
   ReactNode,
   type SyntheticEvent,
@@ -9,11 +15,11 @@ import {
   useEffectEvent,
   useState,
   useTransition,
-} from 'react';
-import { Collapsible, CollapsibleContent } from '../ui/collapsible';
-import { cva } from 'class-variance-authority';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import type * as Remark from 'fumadocs-core/mdx-plugins/remark-feedback-block';
+} from "react";
+import { Collapsible, CollapsibleContent } from "../ui/collapsible";
+import { cva } from "class-variance-authority";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import type * as Remark from "fumadocs-core/mdx-plugins/remark-feedback-block";
 import {
   actionResponse,
   blockFeedback,
@@ -21,17 +27,17 @@ import {
   type ActionResponse,
   type BlockFeedback,
   type PageFeedback,
-} from './schema';
-import { z } from 'zod/mini';
-import { usePathname } from 'fumadocs-core/framework';
+} from "./schema";
+import { z } from "zod/mini";
+import { usePathname } from "fumadocs-core/framework";
 
 const rateButtonVariants = cva(
-  'inline-flex items-center gap-2 px-3 py-2 rounded-full font-medium border text-sm [&_svg]:size-4 disabled:cursor-not-allowed',
+  "inline-flex items-center gap-2 px-3 py-2 rounded-full font-medium border text-sm [&_svg]:size-4 disabled:cursor-not-allowed",
   {
     variants: {
       active: {
-        true: 'bg-fd-accent text-fd-accent-foreground [&_svg]:fill-current',
-        false: 'text-fd-muted-foreground',
+        true: "bg-fd-accent text-fd-accent-foreground [&_svg]:fill-current",
+        false: "text-fd-muted-foreground",
       },
     },
   },
@@ -58,8 +64,8 @@ export function Feedback({
     const result = pageFeedbackResult.safeParse(v);
     return result.success ? result.data : null;
   });
-  const [opinion, setOpinion] = useState<'good' | 'bad' | null>(null);
-  const [message, setMessage] = useState('');
+  const [opinion, setOpinion] = useState<"good" | "bad" | null>(null);
+  const [message, setMessage] = useState("");
   const [isPending, startTransition] = useTransition();
 
   function submit(e?: SyntheticEvent) {
@@ -77,7 +83,7 @@ export function Feedback({
         response,
         ...feedback,
       });
-      setMessage('');
+      setMessage("");
       setOpinion(null);
     });
 
@@ -100,11 +106,11 @@ export function Feedback({
           disabled={previous !== null}
           className={cn(
             rateButtonVariants({
-              active: activeOpinion === 'good',
+              active: activeOpinion === "good",
             }),
           )}
           onClick={() => {
-            setOpinion('good');
+            setOpinion("good");
           }}
         >
           <ThumbsUp />
@@ -114,11 +120,11 @@ export function Feedback({
           disabled={previous !== null}
           className={cn(
             rateButtonVariants({
-              active: activeOpinion === 'bad',
+              active: activeOpinion === "bad",
             }),
           )}
           onClick={() => {
-            setOpinion('bad');
+            setOpinion("bad");
           }}
         >
           <ThumbsDown />
@@ -134,19 +140,13 @@ export function Feedback({
                 href={previous.response?.githubUrl}
                 rel="noreferrer noopener"
                 target="_blank"
-                className={cn(
-                  buttonVariants(),
-                  'text-xs',
-                )}
+                className={cn(buttonVariants(), "text-xs")}
               >
                 View on GitHub
               </a>
 
               <button
-                className={cn(
-                  buttonVariants(),
-                  'text-xs',
-                )}
+                className={cn(buttonVariants(), "text-xs")}
                 onClick={() => {
                   setOpinion(previous.opinion);
                   setPrevious(null);
@@ -166,14 +166,14 @@ export function Feedback({
               className="border rounded-lg bg-fd-secondary text-fd-secondary-foreground p-3 resize-none focus-visible:outline-none placeholder:text-fd-muted-foreground"
               placeholder="Leave your feedback..."
               onKeyDown={(e) => {
-                if (!e.shiftKey && e.key === 'Enter') {
+                if (!e.shiftKey && e.key === "Enter") {
                   submit(e);
                 }
               }}
             />
             <button
               type="submit"
-              className={cn(buttonVariants(), 'w-fit px-3')}
+              className={cn(buttonVariants(), "w-fit px-3")}
               disabled={isPending}
             >
               Submit
@@ -203,18 +203,18 @@ export function FeedbackBlock({ children, ...rest }: FeedbackBlockProps) {
       <div className="relative group/feedback">
         <div
           className={cn(
-            'absolute -inset-1 rounded-sm pointer-events-none transition-colors duration-100 -z-1',
+            "absolute -inset-1 rounded-sm pointer-events-none transition-colors duration-100 -z-1",
             open
-              ? 'bg-fd-accent'
-              : 'group-hover/feedback:bg-fd-accent group-hover/feedback:delay-100',
+              ? "bg-fd-accent"
+              : "group-hover/feedback:bg-fd-accent group-hover/feedback:delay-100",
           )}
         />
         <PopoverTrigger
           className={cn(
-            buttonVariants({ variant: 'secondary', size: 'sm' }),
-            'absolute -top-7 inset-e-0 min-w-[94px] backdrop-blur-sm text-fd-muted-foreground gap-1.5 transition-all duration-100 data-[state=open]:bg-fd-accent data-[state=open]:text-fd-accent-foreground',
+            buttonVariants({ variant: "secondary", size: "sm" }),
+            "absolute -top-7 inset-e-0 min-w-[94px] backdrop-blur-sm text-fd-muted-foreground gap-1.5 transition-all duration-100 data-[state=open]:bg-fd-accent data-[state=open]:text-fd-accent-foreground",
             !open &&
-              'opacity-0 pointer-events-none group-hover/feedback:pointer-events-auto group-hover/feedback:opacity-100 group-hover/feedback:delay-100 hover:pointer-events-auto hover:opacity-100 hover:delay-100',
+              "opacity-0 pointer-events-none group-hover/feedback:pointer-events-auto group-hover/feedback:opacity-100 group-hover/feedback:delay-100 hover:pointer-events-auto hover:opacity-100 hover:delay-100",
           )}
         >
           {open ? (
@@ -248,7 +248,7 @@ function FeedbackBlockContent({ id, body, onSendAction }: FeedbackBlockProps) {
     if (result.success) return result.data;
     return null;
   });
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [isPending, startTransition] = useTransition();
 
   function submit(e?: SyntheticEvent) {
@@ -265,7 +265,7 @@ function FeedbackBlockContent({ id, body, onSendAction }: FeedbackBlockProps) {
         response,
         ...feedback,
       });
-      setMessage('');
+      setMessage("");
     });
 
     e?.preventDefault();
@@ -280,19 +280,13 @@ function FeedbackBlockContent({ id, body, onSendAction }: FeedbackBlockProps) {
             href={previous.response?.githubUrl}
             rel="noreferrer noopener"
             target="_blank"
-            className={cn(
-              buttonVariants(),
-              'text-xs',
-            )}
+            className={cn(buttonVariants(), "text-xs")}
           >
             View on GitHub
           </a>
 
           <button
-            className={cn(
-              buttonVariants(),
-              'text-xs',
-            )}
+            className={cn(buttonVariants(), "text-xs")}
             onClick={() => {
               setPrevious(null);
             }}
@@ -312,14 +306,17 @@ function FeedbackBlockContent({ id, body, onSendAction }: FeedbackBlockProps) {
         className="border rounded-lg bg-fd-secondary text-fd-secondary-foreground p-3 resize-none focus-visible:outline-none placeholder:text-fd-muted-foreground"
         placeholder="Leave your feedback..."
         onKeyDown={(e) => {
-          if (!e.shiftKey && e.key === 'Enter') {
+          if (!e.shiftKey && e.key === "Enter") {
             submit(e);
           }
         }}
       />
       <button
         type="submit"
-        className={cn(buttonVariants({ variant: 'secondary', size: 'sm' }), 'gap-1.5')}
+        className={cn(
+          buttonVariants({ variant: "secondary", size: "sm" }),
+          "gap-1.5",
+        )}
         disabled={isPending}
       >
         <CornerDownRightIcon className="text-fd-muted-foreground size-4" />
@@ -329,7 +326,10 @@ function FeedbackBlockContent({ id, body, onSendAction }: FeedbackBlockProps) {
   );
 }
 
-function useSubmissionStorage<Result>(blockId: string, validate: (v: unknown) => Result | null) {
+function useSubmissionStorage<Result>(
+  blockId: string,
+  validate: (v: unknown) => Result | null,
+) {
   const storageKey = `docs-feedback-${blockId}`;
   const [value, setValue] = useState<Result | null>(null);
   const validateCallback = useEffectEvent(validate);

@@ -2,26 +2,42 @@
 title: Virtual 8086 Mode
 ---
 
-<Callout title="Disclaimer">This guide is meant for people with very little experience. If you follow along and have a curious mind, this will teach you extremely important concepts in osdev.</Callout>
+<Callout title="Disclaimer">
+  This guide is meant for people with very little experience. If you follow
+  along and have a curious mind, this will teach you extremely important
+  concepts in osdev.
+</Callout>
 
-<Callout title="Disclaimer">Due to the complex concepts and operations explained on this page, the code is intended for informational purposes only. Therefore, we cannot guarantee its actual functionality.</Callout>
+<Callout title="Disclaimer">
+  Due to the complex concepts and operations explained on this page, the code is
+  intended for informational purposes only. Therefore, we cannot guarantee its
+  actual functionality.
+</Callout>
 
-<Callout title="Guide Reference">This guide contain a part of the informations located in the [CPU System Management Modes guide](/guides/notes/cpuModesArchitectures).</Callout>
+<Callout title="Guide Reference">
+  This guide contain a part of the informations located in the [CPU System
+  Management Modes guide](/guides/notes/cpuModesArchitectures).
+</Callout>
 
-Virtual 8086 mode is a sub-mode of the Protected mode. 
+Virtual 8086 mode is a sub-mode of the Protected mode.
 When the CPU is in Virtual 8086 mode, it's running an "Emulated" 16-bit Real Mode machine.
 
 ### Limitations
+
 The limitations are:
-- All the limitations of the *Real Mode*.
+
+- All the limitations of the _Real Mode_.
 - You **can't enter in Protected Mode**, you need to switch back to the Protected Mode.
 - Some stuff about the fact that the low level commands are emulated and not really executed as in the Real Mode, but is problems too technical to be important to us.
 
 ### Advantages
+
 The advantages are:
+
 - We can use all the Real Mode functions, while we are in fact in Protected Mode.
 
 ### Code example
+
 ```asm
 [ORG 0x4000]
 [BITS 32]
@@ -41,7 +57,7 @@ enterVirtual8086:
     push SEGMENT_VIRTUAL_8086_MODE  ; CS
     push startVirtual8086Mode       ; EIP
 
-    iret 
+    iret
 
 [BITS 16]
 startVirtual8086Mode:
@@ -49,6 +65,7 @@ startVirtual8086Mode:
 ```
 
 #### Explanation
+
 ```asm
 [ORG 0x4000]
 [BITS 32]       ; We start in Protected Mode

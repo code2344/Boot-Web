@@ -8,9 +8,7 @@ export default function JoinButton({
 }: React.ComponentProps<typeof Button> & { text?: string }) {
   return (
     <Button {...props} asChild>
-      <Link href="/dashboard">
-        {text}
-      </Link>
+      <Link href="/dashboard">{text}</Link>
     </Button>
   );
 }

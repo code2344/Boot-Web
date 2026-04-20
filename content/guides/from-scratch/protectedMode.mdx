@@ -2,16 +2,25 @@
 title: Protected Mode
 ---
 
-<Callout title="Disclaimer">This guide is meant for people with very little experience. If you follow along and have a curious mind, this will teach you extremely important concepts in osdev.</Callout>
+<Callout title="Disclaimer">
+  This guide is meant for people with very little experience. If you follow
+  along and have a curious mind, this will teach you extremely important
+  concepts in osdev.
+</Callout>
 
-<Callout title="Guide Reference">This guide contain a part of the informations located in the [CPU System Management Modes guide](/guides/notes/cpuModesArchitectures).</Callout>
+<Callout title="Guide Reference">
+  This guide contain a part of the informations located in the [CPU System
+  Management Modes guide](/guides/notes/cpuModesArchitectures).
+</Callout>
 
 Protected Mode is the **main operating mode** of modern Intel processors.
 
-This mode, also called **32-bit** mode, when enabled *permit to unleash the real power of the CPU*. However, *it will prevent really low-level calls* like BIOS interrupts.
+This mode, also called **32-bit** mode, when enabled _permit to unleash the real power of the CPU_. However, _it will prevent really low-level calls_ like BIOS interrupts.
 
 ### Limitations
+
 The limitations are:
+
 - Very complicated initial setup.
 - No direct access to hardware from userspace.
 - Complex virtual memory management.
@@ -19,20 +28,24 @@ The limitations are:
 - Not compatible with Real Mode code.
 
 ### Advantages
+
 The advantages are:
+
 - Memory isolation and protection with segmentation and paging.
 - Support for 3 Privilege Levels.
 - Secure Multitasking Support.
 - Kernel bug protection.
 
 ### Intel Manual Reference
+
 To enter in Protected Mode, following the official Intel manual, you have to follow these steps:
+
 - Disable interrupts
 - Load the GDT
 - Set the PE flag in the register cr0 (the Protected mode bit is set, so with value 1) (The cr0 is the Control Register 0)
-- Execute a far jump *immediately after* the cr0 set
+- Execute a far jump _immediately after_ the cr0 set
 - If paging is enabled, the cr0 set and the far jump must be from a page that is identity mapped (that is, the linear address before the jump is the same as the physical address
-after paging and protected mode is enabled)
+  after paging and protected mode is enabled)
 - If a LDT is going to be used, load the LDT
 - After the jump, in Protected Mode, reset the segment registers values (DS, SS, ES, FS and GS)
 - If an IDT is going to be used, load the IDT
@@ -41,6 +54,7 @@ after paging and protected mode is enabled)
 The Manual also say that if other instructions exists between the cr0 set and the far jump, there may be random failures.
 
 ### Code example
+
 ```asm
 [ORG 0x1000]
 [BITS 16]
@@ -97,15 +111,16 @@ startProtectedMode:
 ```
 
 #### Explanation
+
 Okay, I know, it's scary, but don't let this get you down. This code took me months to write, but now I'll explain it to you in the simplest and most complete way possible.
 
 This program enter in Protected Mode. Yes, it doesn't do anything else.
 
 If you try to copy the entire code, compile it, and run it, it won't work because it's not designed to run in the first-stage bootloader. I ran it in the second stage of my bootloader, so I know it works perfectly. For more information on multi-stage bootloaders, I refer you to the dedicated guide.
 
-Note that all parts of this code are **actually required** to **properly enter Protected Mode**. Certain values can be changed, and there's obviously room for programming style, but *skipping steps described in this code risks crashing the system*.
+Note that all parts of this code are **actually required** to **properly enter Protected Mode**. Certain values can be changed, and there's obviously room for programming style, but _skipping steps described in this code risks crashing the system_.
 
-Before to pass to the code explanation, you need to know the concept of *GDT* (Global Descriptor Table). I recommand reading the [Global Descriptor Table guide](/guides/notes/globalDescriptionTable) before continue.
+Before to pass to the code explanation, you need to know the concept of _GDT_ (Global Descriptor Table). I recommand reading the [Global Descriptor Table guide](/guides/notes/globalDescriptionTable) before continue.
 
 Below is a simple but very detailed explanation of the program.
 
@@ -181,4 +196,5 @@ GDTDescriptor:
 startProtectedMode:     ; The address where we have to arrive with the far jump
     jmp $               ; Stop the program
 ```
+
 This part **must be at the end of the file**, because is the only part in Protected Mode.

@@ -8,30 +8,34 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row gap-12 md:gap-16 items-start">
           {/* Orpheus Image */}
           <div className="shrink-0">
-            <Image 
-              alt="Hack Club Orpheus" 
-              src="/hack-club-orpheus.svg" 
-              width={140} 
+            <Image
+              alt="Hack Club Orpheus"
+              src="/hack-club-orpheus.svg"
+              width={140}
               height={140}
               className="object-contain"
             />
           </div>
-          
+
           {/* Content Section */}
           <div className="flex flex-col gap-6 flex-1">
             <div className="flex items-center gap-3">
               <Image alt="Boot Logo" src="/icon.svg" width={40} height={40} />
               <div className="text-primary text-2xl font-bold">Boot</div>
             </div>
-            
+
             <p className="text-muted-foreground leading-relaxed">
-              A Hack Club YSWS where teens from around the world build operating systems 
-              and get hardware to run them.
+              A Hack Club YSWS where teens from around the world build operating
+              systems and get hardware to run them.
             </p>
 
             <div className="text-sm text-muted-foreground mt-auto">
               Website by{" "}
-              <Link href="https://ingo.au" target="_blank" className="text-primary hover:underline">
+              <Link
+                href="https://ingo.au"
+                target="_blank"
+                className="text-primary hover:underline"
+              >
                 Ingo
               </Link>
             </div>

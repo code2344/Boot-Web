@@ -2,34 +2,46 @@
 title: Long Mode
 ---
 
-<Callout title="Disclaimer">This guide is meant for people with very little experience. If you follow along and have a curious mind, this will teach you extremely important concepts in osdev.</Callout>
+<Callout title="Disclaimer">
+  This guide is meant for people with very little experience. If you follow
+  along and have a curious mind, this will teach you extremely important
+  concepts in osdev.
+</Callout>
 
-<Callout title="Guide Reference">This guide contain a part of the informations located in the [CPU System Management Modes guide](/guides/notes/cpuModesArchitectures).</Callout>
+<Callout title="Guide Reference">
+  This guide contain a part of the informations located in the [CPU System
+  Management Modes guide](/guides/notes/cpuModesArchitectures).
+</Callout>
 
 The Long Mode, sometimes also called IA32e Mode, is the most userfull and powerfull mode that the Intel CPUs can provide to the OS devs.
 Long Mode consists of two sub modes: the 64-bit mode and the compatibility mode (with the 32-bit mode).
 
 ### Limitations
+
 The limitations are:
+
 - Setup really more difficult than the Protected Mode one.
 - Need to enable paging.
-- *Real Mode* and *Virtual 8086 Mode* **aren't usable anymore**.
+- _Real Mode_ and _Virtual 8086 Mode_ **aren't usable anymore**.
 - Granularity required with paging.
 - Segmentation isn't usable anymore.
 - Debug almost impossible (I'm serious, debug may require days for the smallest mistakes).
 
 ### Advantages
+
 The advantages are:
+
 - We have an extended set of registers:
-    - 64-bits registers: rax, rbx, rcx, rdx, rsp, rbp, rip, etc.
-    - Eight new general-purpose registers: r8-r15
-    - Eight new multimedia registers: xmm8-xmm15
+  - 64-bits registers: rax, rbx, rcx, rdx, rsp, rbp, rip, etc.
+  - Eight new general-purpose registers: r8-r15
+  - Eight new multimedia registers: xmm8-xmm15
 - **Addressing to 64-bit**.
-- Each process can *address up to 128TB* of virtual memory.
-- *Paging* is required.
-- *Syscall* and *Sysret*!
+- Each process can _address up to 128TB_ of virtual memory.
+- _Paging_ is required.
+- _Syscall_ and _Sysret_!
 
 ### Code example
+
 ```asm
 [ORG 0x9000]
 [BITS 32]
@@ -112,7 +124,7 @@ GDTStart64:
         db 0
 
         db 0b10011010
-        
+
         db 0b10101111
 
         db 0
@@ -123,7 +135,7 @@ GDTStart64:
         db 0
 
         db 0b10010010
-        
+
         db 0b10101111
 
         db 0
@@ -139,6 +151,7 @@ startLongMode:
 ```
 
 #### Explanation
+
 I said that the setup is really really difficult, but don't worry, I'm going to explain every single row of this code.
 Some details like the GDT and the cr0 register are similar to the Protected Mode ones, but we have to do more advanced stuff like setup paging, enable phisical address extension and a lot of other stuff.
 
@@ -201,21 +214,22 @@ At the last two rows of this section of the code, we load the PML4 Table in eax 
 In this example we are setting the Page Map Level 4, that's a bit more advanced than the lowest levels.
 
 To enable the PML4 we have to:
-- Load in the *Page Map Level 4 Table* the reference to the *Page Directory Pointer Table*.
-- Set the bit 0 of the *Page Map Level 4 Table* to 1.
-    - In this example we set also the bit 1 of the *Page Map Level 4 Table* to enable write operations.
-- Load in the *Page Directory Pointer Table* the reference to the *Page Directory Table*.
-- Set the bit 0 of the *Page Directory Pointer Table* to 1.
-    - In this example we set also the bit 1 of the *Page Directory Pointer Table* to enable write operations.
-- Set the bit 0 of the *Page Directory Table* to 1.
-- Set the bit 7 of the *Page Directory Table* to 1.
-    - In this example we set also the bit 1 of the *Page Directory Table* to enable write operations.
 
-The *Page Directory Table* is a 64-bit table, now we are still in the Protected Mode, so we can't load directly a 64-bit value in the Table, but we can load 2 sets of 32-bit data.
+- Load in the _Page Map Level 4 Table_ the reference to the _Page Directory Pointer Table_.
+- Set the bit 0 of the _Page Map Level 4 Table_ to 1.
+  - In this example we set also the bit 1 of the _Page Map Level 4 Table_ to enable write operations.
+- Load in the _Page Directory Pointer Table_ the reference to the _Page Directory Table_.
+- Set the bit 0 of the _Page Directory Pointer Table_ to 1.
+  - In this example we set also the bit 1 of the _Page Directory Pointer Table_ to enable write operations.
+- Set the bit 0 of the _Page Directory Table_ to 1.
+- Set the bit 7 of the _Page Directory Table_ to 1.
+  - In this example we set also the bit 1 of the _Page Directory Table_ to enable write operations.
+
+The _Page Directory Table_ is a 64-bit table, now we are still in the Protected Mode, so we can't load directly a 64-bit value in the Table, but we can load 2 sets of 32-bit data.
 To set `0x0000000000000083` in `pd_table` we can load first the lowest 32-bit value, then with an offset of 4 bytes (`[pd_table+4]`) we can load the 32-bit hightest value in the table.
 
 The bit 0 must be 1 in all the three Tables.
-The bit 7 of the *Page Directory Table* must be 1, otherwise the CPU will think that's a *Page Directory Pointer Table*.
+The bit 7 of the _Page Directory Table_ must be 1, otherwise the CPU will think that's a _Page Directory Pointer Table_.
 
 On the last part of the code, we load the ready PML4 Table in a register to load it in cr3.
 
@@ -275,7 +289,7 @@ GDTStart64:                 ; The address of the start of the GDT
         db 0                ; Allocate 8 bits of 0
 
         db 0b10011010       ; Allocate 8 bits with value 10011010
-        
+
         db 0b10101111       ; Allocate 8 bits with value 10101111
 
         db 0                ; Allocate 8 bits of 0
@@ -286,7 +300,7 @@ GDTStart64:                 ; The address of the start of the GDT
         db 0                ; Allocate 8 bits of 0
 
         db 0b10010010       ; Allocate 8 bits with value 10010010
-        
+
         db 0b10101111       ; Allocate 8 bits with value 10101111
 
         db 0                ; Allocate 8 bits of 0

@@ -95,7 +95,7 @@ export default function BootLog({ className }: { className?: string }) {
 
     columnOffsetsRef.current = Array.from(
       { length: COLUMNS },
-      (_, i) => Math.floor((BOOT_LINES.length / COLUMNS) * i) * LINE_HEIGHT
+      (_, i) => Math.floor((BOOT_LINES.length / COLUMNS) * i) * LINE_HEIGHT,
     );
 
     const resize = () => {

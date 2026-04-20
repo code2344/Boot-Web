@@ -29,25 +29,25 @@ export function HowItWorksSection() {
       <h2 className="text-primary text-2xl">How It Works</h2>
 
       <div className="grid gap-6 md:grid-cols-3">
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-            return (
-              <Card key={index} className="relative overflow-hidden">
-                <CardHeader>
-                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-primary/10">
-                    <Icon className="h-8 w-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-xl text-foreground">{step.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-foreground text-sm">
-                    {step.description}
-                  </p>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </AnimatedSection>
-    );
-  }
+        {steps.map((step, index) => {
+          const Icon = step.icon;
+          return (
+            <Card key={index} className="relative overflow-hidden">
+              <CardHeader>
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-primary/10">
+                  <Icon className="h-8 w-8 text-primary" />
+                </div>
+                <CardTitle className="text-xl text-foreground">
+                  {step.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-foreground text-sm">{step.description}</p>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    </AnimatedSection>
+  );
+}

@@ -20,7 +20,7 @@ export default function FAQsSection() {
           </p>
         </div>
         <div>
-          <h3 className="font-semibold mb-2">Can I make multiple OSes</h3>
+          <h3 className="font-semibold mb-2">Can I make multiple OSes?</h3>
           <p className="text-sm">
             Yes, but we highly encourage you to just make one and make it the best you can!
           </p>
@@ -28,7 +28,7 @@ export default function FAQsSection() {
         <div>
           <h3 className="font-semibold mb-2">What is Hack Club?</h3>
           <p className="text-sm">
-            <a href="https://hackclub.com" target="_blank" className="underline hover:decortaion-wavy">Hack Club</a> is a 501(c)(3) nonprofit and network of 60k+ technical high schoolers. 
+            <a href="https://hackclub.com" target="_blank" className="underline hover:decoration-wavy">Hack Club</a> is a 501(c)(3) nonprofit and network of 60k+ technical high schoolers. 
           </p>
         </div>
       </div>

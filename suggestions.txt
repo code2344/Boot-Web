@@ -1,0 +1,61 @@
+SUGGESTION 1: Typo in CSS class causes broken hover effect
+===========================================================
+
+File: components/sections/faqs.tsx, line 31
+
+WHAT THE CURRENT CODE DOES:
+  <a href="https://hackclub.com" target="_blank" className="underline hover:decortaion-wavy">
+
+The link is given the Tailwind class "hover:decortaion-wavy". Tailwind (or any
+CSS utility framework) will simply ignore an unrecognised class name silently,
+so no wavy-underline decoration ever appears when the user hovers over the link.
+
+WHY IT IS WRONG:
+  "decortaion" is a misspelling of "decoration". The intended class is
+  "hover:decoration-wavy", which is a valid Tailwind CSS modifier. Because the
+  class name does not exist, the hover animation is completely non-functional.
+  Users never see any visual feedback when hovering over the Hack Club link.
+
+PROPOSED SOLUTION:
+  Change "hover:decortaion-wavy" → "hover:decoration-wavy":
+
+    <a href="https://hackclub.com" target="_blank"
+       className="underline hover:decoration-wavy">
+
+  This restores the intended wavy-underline hover effect on the link.
+
+
+SUGGESTION 2: w-screen on a child element causes horizontal overflow / scrollbar
+=================================================================================
+
+File: app/(website)/layout.tsx, line 14
+
+WHAT THE CURRENT CODE DOES:
+  <main className="max-w-4xl w-screen mx-auto p-4">{children}</main>
+
+  The <main> element is given the Tailwind class "w-screen", which sets its
+  CSS width to 100vw (100% of the viewport width).
+
+WHY IT IS WRONG:
+  100vw always refers to the full width of the browser viewport, including the
+  area taken up by the vertical scrollbar. On desktop browsers that display a
+  visible scrollbar, an element with width: 100vw inside a parent that is
+  already at the scrollbar edge will be slightly wider than the available
+  space, creating an unwanted horizontal scrollbar. The issue becomes more
+  noticeable on pages with tall content (long scroll). The correct utility for
+  "fill the available width of my parent" is "w-full" (width: 100%), not
+  "w-screen" (width: 100vw).
+
+  Note: max-w-4xl already caps the element at 56 rem, so w-screen only
+  matters at viewport widths below 56 rem (small screens), which is exactly
+  where scrollbar overlap causes visible layout breakage.
+
+PROPOSED SOLUTION:
+  Replace "w-screen" with "w-full":
+
+    <main className="max-w-4xl w-full mx-auto p-4">{children}</main>
+
+  "w-full" expands to fill the parent container's width (respecting the
+  scrollbar), while "max-w-4xl" still caps it at 56 rem on wider screens.
+  This eliminates the potential horizontal scrollbar without changing any
+  visual design intent.

@@ -24,6 +24,8 @@ PROPOSED SOLUTION:
 
   This restores the intended wavy-underline hover effect on the link.
 
+STATUS: FIXED
+
 
 SUGGESTION 2: w-screen on a child element causes horizontal overflow / scrollbar
 =================================================================================
@@ -59,3 +61,116 @@ PROPOSED SOLUTION:
   scrollbar), while "max-w-4xl" still caps it at 56 rem on wider screens.
   This eliminates the potential horizontal scrollbar without changing any
   visual design intent.
+
+STATUS: FIXED
+
+
+SUGGESTION 3: Missing question mark in FAQ heading
+===================================================
+
+File: components/sections/faqs.tsx, line 23
+
+WHAT THE CURRENT CODE DOES:
+  <h3 className="font-semibold mb-2">Can I make multiple OSes</h3>
+
+  The heading text ends without a question mark even though it is phrased as
+  a question.
+
+WHY IT IS WRONG:
+  All other FAQ headings in the same component end with a question mark
+  ("Who can participate?", "Don't know how to make an OS?", "What is Hack
+  Club?"). The missing punctuation is inconsistent and looks like an
+  unfinished sentence to the reader.
+
+PROPOSED SOLUTION:
+  Add the missing question mark:
+
+    <h3 className="font-semibold mb-2">Can I make multiple OSes?</h3>
+
+STATUS: FIXED
+
+
+SUGGESTION 4: Unused import causes dead code (Lightbulb icon in whatcounts.tsx)
+=================================================================================
+
+File: components/sections/whatcounts.tsx, line 2
+
+WHAT THE CURRENT CODE DOES:
+  import { Lightbulb } from "lucide-react";
+
+  The Lightbulb icon is imported from the lucide-react library but is never
+  referenced anywhere in the component's JSX or logic.
+
+WHY IT IS WRONG:
+  Dead imports increase the compiled bundle size slightly, clutter the module
+  graph, and will trigger an ESLint "no-unused-vars" warning. They also
+  mislead future developers into thinking the icon is used somewhere.
+
+PROPOSED SOLUTION:
+  Remove the unused import line entirely:
+
+    - import { Lightbulb } from "lucide-react";
+
+STATUS: FIXED
+
+
+SUGGESTION 5: Heading hierarchy violation — <h2> inside an <h2> section
+========================================================================
+
+File: components/sections/whatcounts.tsx, lines 10 and 14
+
+WHAT THE CURRENT CODE DOES:
+  <h2 className="text-primary text-2xl">What Counts as an OS?</h2>
+  ...
+  <h2 className="text-xl">From Scratch</h2>
+  ...
+  <h2 className="text-xl">Base it off</h2>
+
+  The section title uses <h2> and the two card titles inside also use <h2>.
+
+WHY IT IS WRONG:
+  HTML heading levels must form a strict hierarchy (h1 -> h2 -> h3 ...).
+  Placing <h2> elements inside another <h2>'s content breaks the document
+  outline, confuses screen readers, and harms SEO. The card headings are
+  logically sub-headings of the section, so they belong at the next level
+  down.
+
+PROPOSED SOLUTION:
+  Change the two inner headings from <h2> to <h3> (keeping all existing
+  classes unchanged):
+
+    <h3 className="text-xl">From Scratch</h3>
+    <h3 className="text-xl">Base it off</h3>
+
+STATUS: FIXED
+
+
+SUGGESTION 6: Dead code — formatNumber function defined but never called
+=========================================================================
+
+File: components/countdown.tsx, lines 46-48
+
+WHAT THE CURRENT CODE DOES:
+  const formatNumber = (num: number): string => {
+      return num.toString().padStart(2, "0");
+  };
+
+  The function is defined inside the Countdown component but is never called.
+  The TimeUnit sub-component at the bottom of the file contains its own
+  identical formatting logic inline (value.toString().padStart(2, "0")).
+
+WHY IT IS WRONG:
+  Dead code adds noise, increases cognitive load for future maintainers, and
+  will produce an ESLint "no-unused-vars" / TypeScript error in strict mode.
+  The duplicated formatting logic also violates the DRY principle.
+
+PROPOSED SOLUTION:
+  Remove the unused formatNumber function. If the formatting needs to be
+  shared in the future, it can be extracted into a named utility and used by
+  both Countdown and TimeUnit:
+
+    - const formatNumber = (num: number): string => {
+    -     return num.toString().padStart(2, "0");
+    - };
+
+STATUS: FIXED

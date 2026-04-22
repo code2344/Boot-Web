@@ -1,5 +1,4 @@
 import AnimatedSection from "@/components/animations/section";
-import { Lightbulb } from "lucide-react";
 
 export default function WhatCountsSection() {
   return (
@@ -7,12 +6,12 @@ export default function WhatCountsSection() {
       <h2 className="text-primary text-2xl">What Counts as an OS?</h2>
       <div className="grid md:grid-cols-2 gap-4">
         <div className="bg-card p-6 border rounded-xl shadow-sm">
-          <h2 className="text-xl">From Scratch</h2>
+          <h3 className="text-xl">From Scratch</h3>
           Build your OS from the ground up, not based on any other OS (May still
           use other libraries, etc)
         </div>
         <div className="bg-card p-6 border rounded-xl shadow-sm">
-          <h2 className="text-xl">Base it off</h2>
+          <h3 className="text-xl">Base it off</h3>
           Make an OS based off an existing OS (Debian, Arch, RPi OS, Ubuntu,
           etc) and make it your own!
         </div>

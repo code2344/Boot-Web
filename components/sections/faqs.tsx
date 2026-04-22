@@ -22,7 +22,7 @@ export default function FAQsSection() {
           </p>
         </div>
         <div>
-          <h3 className="font-semibold mb-2">Can I make multiple OSes</h3>
+          <h3 className="font-semibold mb-2">Can I make multiple OSes?</h3>
           <p className="text-sm">
             Yes, but we highly encourage you to just make one and make it the
             best you can!
@@ -34,7 +34,7 @@ export default function FAQsSection() {
             <a
               href="https://hackclub.com"
               target="_blank"
-              className="underline hover:decortaion-wavy"
+              className="underline hover:decoration-wavy"
             >
               Hack Club
             </a>{" "}

@@ -43,10 +43,6 @@ export default function Countdown() {
     return () => clearInterval(timer);
   }, []);
 
-  const formatNumber = (num: number): string => {
-    return num.toString().padStart(2, "0");
-  };
-
   if (!mounted) {
     return (
       <div className="font-mono text-sm text-muted-foreground">

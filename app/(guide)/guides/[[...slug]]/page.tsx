@@ -34,7 +34,10 @@ export default async function Page(props: PageProps<"/guides/[[...slug]]">) {
       </DocsBody>
       <Feedback
         onSendAction={async (feedback) => {
-          posthog.capture("on_rate_docs", feedback);
+          "use server";
+
+          await posthog.capture("on_rate_docs", feedback);
+
           return {};
         }}
       />

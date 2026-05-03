@@ -140,13 +140,23 @@ export function Feedback({
                 href={previous.response?.githubUrl}
                 rel="noreferrer noopener"
                 target="_blank"
-                className={cn(buttonVariants(), "text-xs")}
+                className={cn(
+                  buttonVariants({
+                    color: "primary",
+                  }),
+                  "text-xs",
+                )}
               >
                 View on GitHub
               </a>
 
               <button
-                className={cn(buttonVariants(), "text-xs")}
+                className={cn(
+                  buttonVariants({
+                    color: "secondary",
+                  }),
+                  "text-xs",
+                )}
                 onClick={() => {
                   setOpinion(previous.opinion);
                   setPrevious(null);
@@ -173,7 +183,7 @@ export function Feedback({
             />
             <button
               type="submit"
-              className={cn(buttonVariants(), "w-fit px-3")}
+              className={cn(buttonVariants({ color: "outline" }), "w-fit px-3")}
               disabled={isPending}
             >
               Submit
@@ -280,13 +290,23 @@ function FeedbackBlockContent({ id, body, onSendAction }: FeedbackBlockProps) {
             href={previous.response?.githubUrl}
             rel="noreferrer noopener"
             target="_blank"
-            className={cn(buttonVariants(), "text-xs")}
+            className={cn(
+              buttonVariants({
+                color: "primary",
+              }),
+              "text-xs",
+            )}
           >
             View on GitHub
           </a>
 
           <button
-            className={cn(buttonVariants(), "text-xs")}
+            className={cn(
+              buttonVariants({
+                color: "secondary",
+              }),
+              "text-xs",
+            )}
             onClick={() => {
               setPrevious(null);
             }}

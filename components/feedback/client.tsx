@@ -30,6 +30,7 @@ import {
 } from "./schema";
 import { z } from "zod/mini";
 import { usePathname } from "fumadocs-core/framework";
+import posthog from "posthog-js";
 
 const rateButtonVariants = cva(
   "inline-flex items-center gap-2 px-3 py-2 rounded-full font-medium border text-sm [&_svg]:size-4 disabled:cursor-not-allowed",
@@ -79,6 +80,11 @@ export function Feedback({
       };
 
       const response = await onSendAction(feedback);
+      posthog.capture("guide_feedback_submitted", {
+        url,
+        opinion,
+        has_message: message.length > 0,
+      });
       setPrevious({
         response,
         ...feedback,

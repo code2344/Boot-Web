@@ -8,6 +8,7 @@ import BootLog from "@/components/animations/boot-log";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Rocket } from "lucide-react";
 import ButtonAnimation from "../buttons/animation";
+import posthog from "posthog-js";
 
 export default function HeroSection() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function HeroSection() {
       return;
     }
 
+    posthog.capture("hero_get_started_clicked", { email: trimmedEmail });
     const params = new URLSearchParams({ email: trimmedEmail });
     router.push(`/dashboard/login?${params.toString()}`);
   };
@@ -68,7 +70,7 @@ export default function HeroSection() {
               size="lg"
               className="w-full sm:w-auto"
             >
-              <Link href="/guides">
+              <Link href="/guides" onClick={() => posthog.capture("browse_guides_clicked")}>
                 <ArrowRight /> Browse Guides
               </Link>
             </Button>

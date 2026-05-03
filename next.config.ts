@@ -8,8 +8,21 @@ const nextConfig: NextConfig = {
         source: "/dashboard/:path*",
         destination: "https://boot-lilac.vercel.app/:path*",
       },
+      {
+        source: "/a/static/:path*",
+        destination: "https://us-assets.i.posthog.com/static/:path*",
+      },
+      {
+        source: "/a/array/:path*",
+        destination: "https://us-assets.i.posthog.com/array/:path*",
+      },
+      {
+        source: "/a/:path*",
+        destination: "https://us.i.posthog.com/:path*",
+      },
     ];
   },
+  skipTrailingSlashRedirect: true,
 };
 
 const withMDX = createMDX({

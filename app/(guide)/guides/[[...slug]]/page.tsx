@@ -11,6 +11,7 @@ import { getMDXComponents } from "@/mdx-components";
 import type { Metadata } from "next";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import { Feedback } from "@/components/feedback/client";
+import posthog from "posthog-js";
 
 export default async function Page(props: PageProps<"/guides/[[...slug]]">) {
   const params = await props.params;
@@ -31,14 +32,12 @@ export default async function Page(props: PageProps<"/guides/[[...slug]]">) {
           })}
         />
       </DocsBody>
-      {/*<Feedback
+      <Feedback
         onSendAction={async (feedback) => {
-          "use server";
-
-          console.log(feedback);
+          posthog.capture("on_rate_docs", feedback);
           return {};
         }}
-      />*/}
+      />
       {page.data.lastModified && (
         <PageLastUpdate date={page.data.lastModified} />
       )}

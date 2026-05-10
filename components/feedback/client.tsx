@@ -142,7 +142,7 @@ export function Feedback({
                 target="_blank"
                 className={cn(
                   buttonVariants({
-                    color: "primary",
+                    variant: "primary",
                   }),
                   "text-xs",
                 )}
@@ -153,7 +153,7 @@ export function Feedback({
               <button
                 className={cn(
                   buttonVariants({
-                    color: "secondary",
+                    variant: "secondary",
                   }),
                   "text-xs",
                 )}

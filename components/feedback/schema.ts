@@ -1,6 +1,7 @@
 import { z } from 'zod/mini';
 
 export const pageFeedback = z.object({
+  distinctId: z.string(),
   opinion: z.enum(['good', 'bad']),
   url: z.string(),
   message: z.string(),

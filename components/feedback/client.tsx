@@ -11,6 +11,7 @@ import {
 } from "react";
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { cva } from "class-variance-authority";
+import posthog from "posthog-js";
 import {
   actionResponse,
   pageFeedback,
@@ -55,6 +56,7 @@ export function Feedback() {
 
     startTransition(async () => {
       const feedback: PageFeedback = {
+        distinctId: posthog.get_distinct_id(),
         url,
         opinion,
         message,

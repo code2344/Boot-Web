@@ -1,7 +1,6 @@
 "use server";
 
 import { getPostHogClient } from "@/lib/posthog-server";
-import { randomUUID } from "node:crypto";
 import { pageFeedback, type ActionResponse, type PageFeedback } from "./schema";
 
 export async function submitGuideFeedback(
@@ -13,13 +12,14 @@ export async function submitGuideFeedback(
   }
 
   const posthog = getPostHogClient();
+  const { distinctId, ...properties } = result.data;
 
   posthog.capture({
-    distinctId: `guide-feedback:${randomUUID()}`,
+    distinctId,
     event: "guide_feedback_submitted",
     properties: {
-      ...result.data,
-      path: result.data.url,
+      ...properties,
+      path: properties.url,
     },
   });
 

@@ -11,13 +11,13 @@ import {
 } from "react";
 import { Collapsible, CollapsibleContent } from "../ui/collapsible";
 import { cva } from "class-variance-authority";
-import posthog from "posthog-js";
 import {
   actionResponse,
   pageFeedback,
   type ActionResponse,
   type PageFeedback,
 } from "./schema";
+import { submitGuideFeedback } from "./actions";
 import { z } from "zod/mini";
 import { usePathname } from "fumadocs-core/framework";
 
@@ -60,9 +60,7 @@ export function Feedback() {
         message,
       };
 
-      posthog.capture("guide_feedback_submitted", feedback);
-
-      const response: ActionResponse = {};
+      const response = await submitGuideFeedback(feedback);
       setPrevious({
         response,
         ...feedback,

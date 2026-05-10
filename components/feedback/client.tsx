@@ -142,7 +142,7 @@ export function Feedback({
                 target="_blank"
                 className={cn(
                   buttonVariants({
-                    variant: "primary",
+                    variant: "default",
                   }),
                   "text-xs",
                 )}

@@ -153,7 +153,7 @@ export function Feedback({
             />
             <button
               type="submit"
-              className={cn(buttonVariants({ variant: "outline" }), "w-fit px-3")}
+              className={cn(buttonVariants(), "w-fit px-3")}
               disabled={isPending}
             >
               Submit
@@ -275,7 +275,7 @@ function FeedbackBlockContent({ id, body, onSendAction }: FeedbackBlockProps) {
       <button
         type="submit"
         className={cn(
-          buttonVariants({ variant: "secondary", size: "sm" }),
+          buttonVariants(),
           "gap-1.5",
         )}
         disabled={isPending}
